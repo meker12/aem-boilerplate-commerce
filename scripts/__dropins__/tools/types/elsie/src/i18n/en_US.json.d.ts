@@ -51,7 +51,7 @@ declare const _default: {
         label: 'Shipping';
         editZipAction: 'Apply';
         estimated: 'Estimated Shipping';
-        estimatedDestination: 'Estimated Shipping to&nbsp;';
+        estimatedDestination: 'Estimated Shipping to testing&nbsp;';
         destinationLinkAriaLabel: 'Change destination';
         zipPlaceholder: 'Zip Code';
         withTaxes: 'Including taxes';
