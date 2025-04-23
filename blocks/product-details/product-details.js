@@ -28,10 +28,28 @@ import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
 import '../../scripts/initializers/cart.js';
 import { rootLink } from '../../scripts/scripts.js';
 
+// Function to update the Add to Cart button text
+function updateAddToCartButtonText(addToCartInstance, inCart, labels) {
+  const buttonText = inCart
+    ? labels.Custom?.UpdateInCart?.label || 'Update in Cart' // Use placeholder or fallback
+    : labels.PDP?.Product?.AddToCart?.label || 'Add to Cart'; // Use placeholder or fallback
+
+  if (addToCartInstance) {
+    addToCartInstance.setProps((prev) => ({
+      ...prev,
+      children: buttonText,
+    }));
+  }
+}
+
 export default async function decorate(block) {
   // eslint-disable-next-line no-underscore-dangle
   const product = events._lastEvent?.['pdp/data']?.payload ?? null;
   const labels = await fetchPlaceholders();
+
+  // Read itemUid from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const itemUidFromUrl = urlParams.get('itemUid');
 
   // Layout
   const fragment = document.createRange().createContextualFragment(`
@@ -225,6 +243,32 @@ export default async function decorate(block) {
     // update add to cart button disabled state based on product selection validity
     addToCart.setProps((prev) => ({ ...prev, disabled: !valid }));
   }, { eager: true });
+
+  // --- Add new event listener for cart/data ---
+  events.on(
+    'cart/data',
+    (cartData) => {
+      let itemIsInCart = false;
+      if (itemUidFromUrl && cartData?.items) {
+        // Log the UID from URL and the cart items for debugging
+        console.log(
+          '⭐️[PDP Debug] Checking for itemUid:',
+          itemUidFromUrl,
+          'in cart items:',
+          cartData.items,
+        );
+        itemIsInCart = cartData.items.some(
+          (item) => item.uid === itemUidFromUrl,
+        );
+      }
+      // Log the result of the check
+      console.log('💚[PDP Debug] Item in cart check result:', itemIsInCart);
+      // Update button text based on whether the item is in the cart
+      updateAddToCartButtonText(addToCart, itemIsInCart, labels);
+    },
+    { eager: true },
+  );
+  // --- End new event listener ---
 
   // Set JSON-LD and Meta Tags
   events.on('aem/lcp', () => {
