@@ -190,7 +190,22 @@ export default async function decorate(block) {
             await updateProductsFromCart([{ ...values, uid: itemUidFromUrl }]);
 
             // --- START REDIRECT ON UPDATE ---
-            window.location.href = rootLink('/cart');
+            const updatedSku = values?.sku;
+            if (updatedSku) {
+              const cartRedirectUrl = new URL(
+                rootLink('/cart'),
+                window.location.origin,
+              );
+              cartRedirectUrl.searchParams.set('updatedSku', updatedSku);
+              window.location.href = cartRedirectUrl.toString();
+            } else {
+              // Fallback if SKU is somehow missing (shouldn't happen in normal flow)
+              // eslint-disable-next-line no-console
+              console.warn(
+                'Could not retrieve SKU for updated item. Redirecting to cart without parameter.',
+              );
+              window.location.href = rootLink('/cart');
+            }
             return;
           }
           // --- Add new item ---
