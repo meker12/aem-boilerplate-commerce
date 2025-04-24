@@ -32,8 +32,7 @@ import { rootLink } from '../../scripts/scripts.js';
 function updateAddToCartButtonText(addToCartInstance, inCart, labels) {
   const buttonText = inCart
     ? labels.Custom?.UpdateInCart?.label || 'Update in Cart' // Use placeholder or fallback
-    : labels.PDP?.Product?.AddToCart?.label || 'Add to Cart'; // Use placeholder or fallback
-
+    : labels.PDP?.Product?.AddToCart?.label;
   if (addToCartInstance) {
     addToCartInstance.setProps((prev) => ({
       ...prev,
@@ -163,12 +162,12 @@ export default async function decorate(block) {
   // Configuration – Button - Add to Cart (Rendered AFTER Promise.all)
   // eslint-disable-next-line prefer-const
   addToCart = await UI.render(Button, {
-    children: labels.PDP?.Product?.AddToCart?.label || 'Add to Cart',
+    children: labels.PDP?.Product?.AddToCart?.label,
     icon: Icon({ source: 'Cart' }),
     onClick: async () => {
       const buttonActionText = isUpdateMode
         ? labels.Custom?.UpdatingInCart?.label || 'Updating in Cart...'
-        : labels.Custom?.AddingToCart?.label || 'Adding to Cart...';
+        : labels.Custom?.AddingToCart?.label;
       try {
         addToCart.setProps((prev) => ({
           ...prev,
@@ -187,13 +186,12 @@ export default async function decorate(block) {
             const { updateProductsFromCart } = await import(
               '@dropins/storefront-cart/api.js'
             );
-            // Pass sku, quantity, optionsUIDs from values, plus the itemUid
+
             await updateProductsFromCart([
               { ...values, uid: itemUidFromUrl },
             ]);
           } else {
             // --- Add new item ---
-            /* console.log('✨ [PDP Debug] Attempting to add item to cart:', { ...values }); */
             const { addProductsToCart } = await import(
               '@dropins/storefront-cart/api.js'
             );
@@ -205,7 +203,6 @@ export default async function decorate(block) {
         inlineAlert?.remove();
       } catch (error) {
         // add alert message
-        /* console.error('🛒 [PDP Debug] Cart operation failed:', error); */
         inlineAlert = await UI.render(InLineAlert, {
           heading: 'Error',
           description: error.message,
@@ -256,10 +253,8 @@ export default async function decorate(block) {
           await wishlist.addToWishlist(values.sku);
         }
       } catch (error) {
-        /* console.error(error); */
-        // Keep error log commented
+        console.error(error);
       } finally {
-        // Original logic to re-enable button and reset label
         addToWishlist.setProps((prev) => ({
           ...prev,
           disabled: false,
@@ -293,7 +288,6 @@ export default async function decorate(block) {
     },
     { eager: true },
   );
-  // --- End new event listener ---
 
   // Set JSON-LD and Meta Tags
   events.on('aem/lcp', () => {
