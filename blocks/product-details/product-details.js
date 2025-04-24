@@ -187,16 +187,17 @@ export default async function decorate(block) {
               '@dropins/storefront-cart/api.js'
             );
 
-            await updateProductsFromCart([
-              { ...values, uid: itemUidFromUrl },
-            ]);
-          } else {
-            // --- Add new item ---
-            const { addProductsToCart } = await import(
-              '@dropins/storefront-cart/api.js'
-            );
-            await addProductsToCart([{ ...values }]);
+            await updateProductsFromCart([{ ...values, uid: itemUidFromUrl }]);
+
+            // --- START REDIRECT ON UPDATE ---
+            window.location.href = rootLink('/cart');
+            return;
           }
+          // --- Add new item ---
+          const { addProductsToCart } = await import(
+            '@dropins/storefront-cart/api.js'
+          );
+          await addProductsToCart([{ ...values }]);
         }
 
         // reset any previous alerts if successful
