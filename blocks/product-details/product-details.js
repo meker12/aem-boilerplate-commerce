@@ -51,6 +51,9 @@ export default async function decorate(block) {
   const urlParams = new URLSearchParams(window.location.search);
   const itemUidFromUrl = urlParams.get('itemUid');
 
+  // State to track if we are in update mode
+  let isUpdateMode = false;
+
   // Layout
   const fragment = document.createRange().createContextualFragment(`
     <div class="product-details__wrapper">
@@ -96,6 +99,10 @@ export default async function decorate(block) {
   let inlineAlert = null;
 
   // Render Containers
+  // Need let here because they are assigned later, after Promise.all
+  let addToCart;
+  let addToWishlist;
+
   const [
     _galleryMobile,
     _gallery,
@@ -104,8 +111,6 @@ export default async function decorate(block) {
     _shortDescription,
     _options,
     _quantity,
-    addToCart,
-    addToWishlist,
     _description,
     _attributes,
   ] = await Promise.all([
@@ -148,95 +153,121 @@ export default async function decorate(block) {
     // Configuration  Quantity
     pdpRendered.render(ProductQuantity, {})($quantity),
 
-    // Configuration – Button - Add to Cart
-    UI.render(Button, {
-      children: labels.PDP?.Product?.AddToCart?.label,
-      icon: Icon({ source: 'Cart' }),
-      onClick: async () => {
-        try {
-          addToCart.setProps((prev) => ({
-            ...prev,
-            children: labels.Custom?.AddingToCart?.label,
-            disabled: true,
-          }));
-
-          // get the current selection values
-          const values = pdpApi.getProductConfigurationValues();
-          const valid = pdpApi.isProductConfigurationValid();
-
-          // add the product to the cart
-          if (valid) {
-            const { addProductsToCart } = await import('@dropins/storefront-cart/api.js');
-            await addProductsToCart([{ ...values }]);
-          }
-
-          // reset any previous alerts if successful
-          inlineAlert?.remove();
-        } catch (error) {
-          // add alert message
-          inlineAlert = await UI.render(InLineAlert, {
-            heading: 'Error',
-            description: error.message,
-            icon: Icon({ source: 'Warning' }),
-            'aria-live': 'assertive',
-            role: 'alert',
-            onDismiss: () => {
-              inlineAlert.remove();
-            },
-          })($alert);
-
-          // Scroll the alertWrapper into view
-          $alert.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-        } finally {
-          addToCart.setProps((prev) => ({
-            ...prev,
-            children: labels.PDP?.Product?.AddToCart?.label,
-            disabled: false,
-          }));
-        }
-      },
-    })($addToCart),
-
-    // Configuration - Add to Wishlist
-    UI.render(Button, {
-      icon: Icon({ source: 'Heart' }),
-      variant: 'secondary',
-      'aria-label': labels.Custom?.AddToWishlist?.label,
-      onClick: async () => {
-        try {
-          addToWishlist.setProps((prev) => ({
-            ...prev,
-            disabled: true,
-            'aria-label': labels.Custom?.AddingToWishlist?.label,
-          }));
-
-          const values = pdpApi.getProductConfigurationValues();
-
-          if (values?.sku) {
-            const wishlist = await import('../../scripts/wishlist/api.js');
-            await wishlist.addToWishlist(values.sku);
-          }
-        } catch (error) {
-          console.error(error);
-        } finally {
-          addToWishlist.setProps((prev) => ({
-            ...prev,
-            disabled: false,
-            'aria-label': labels.Custom?.AddToWishlist?.label,
-          }));
-        }
-      },
-    })($addToWishlist),
-
     // Description
     pdpRendered.render(ProductDescription, {})($description),
 
     // Attributes
     pdpRendered.render(ProductAttributes, {})($attributes),
   ]);
+
+  // Configuration – Button - Add to Cart (Rendered AFTER Promise.all)
+  // eslint-disable-next-line prefer-const
+  addToCart = await UI.render(Button, {
+    children: labels.PDP?.Product?.AddToCart?.label || 'Add to Cart',
+    icon: Icon({ source: 'Cart' }),
+    onClick: async () => {
+      const buttonActionText = isUpdateMode
+        ? labels.Custom?.UpdatingInCart?.label || 'Updating in Cart...'
+        : labels.Custom?.AddingToCart?.label || 'Adding to Cart...';
+      try {
+        addToCart.setProps((prev) => ({
+          ...prev,
+          children: buttonActionText,
+          disabled: true,
+        }));
+
+        // get the current selection values
+        const values = pdpApi.getProductConfigurationValues();
+        const valid = pdpApi.isProductConfigurationValid();
+
+        // add or update the product in the cart
+        if (valid) {
+          if (isUpdateMode) {
+            // --- Update existing item ---
+            const { updateProductsFromCart } = await import(
+              '@dropins/storefront-cart/api.js'
+            );
+            // Pass sku, quantity, optionsUIDs from values, plus the itemUid
+            await updateProductsFromCart([
+              { ...values, uid: itemUidFromUrl },
+            ]);
+          } else {
+            // --- Add new item ---
+            /* console.log('✨ [PDP Debug] Attempting to add item to cart:', { ...values }); */
+            const { addProductsToCart } = await import(
+              '@dropins/storefront-cart/api.js'
+            );
+            await addProductsToCart([{ ...values }]);
+          }
+        }
+
+        // reset any previous alerts if successful
+        inlineAlert?.remove();
+      } catch (error) {
+        // add alert message
+        /* console.error('🛒 [PDP Debug] Cart operation failed:', error); */
+        inlineAlert = await UI.render(InLineAlert, {
+          heading: 'Error',
+          description: error.message,
+          icon: Icon({ source: 'Warning' }),
+          'aria-live': 'assertive',
+          role: 'alert',
+          onDismiss: () => {
+            inlineAlert.remove();
+          },
+        })($alert);
+
+        // Scroll the alertWrapper into view
+        $alert.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      } finally {
+        // Reset button text using the helper function which respects the current mode
+        updateAddToCartButtonText(addToCart, isUpdateMode, labels);
+        // Re-enable button
+        addToCart.setProps((prev) => ({
+          ...prev,
+          disabled: false,
+        }));
+      }
+    },
+  })($addToCart);
+
+  // Configuration - Add to Wishlist (Rendered AFTER Promise.all)
+  // eslint-disable-next-line prefer-const
+  addToWishlist = await UI.render(Button, {
+    icon: Icon({ source: 'Heart' }),
+    variant: 'secondary',
+    'aria-label': labels.Custom?.AddToWishlist?.label,
+    onClick: async () => {
+      try {
+        // Original logic to disable button and update label
+        addToWishlist.setProps((prev) => ({
+          ...prev,
+          disabled: true,
+          'aria-label': labels.Custom?.AddingToWishlist?.label,
+        }));
+
+        const values = pdpApi.getProductConfigurationValues();
+
+        if (values?.sku) {
+          const wishlist = await import('../../scripts/wishlist/api.js');
+          await wishlist.addToWishlist(values.sku);
+        }
+      } catch (error) {
+        /* console.error(error); */
+        // Keep error log commented
+      } finally {
+        // Original logic to re-enable button and reset label
+        addToWishlist.setProps((prev) => ({
+          ...prev,
+          disabled: false,
+          'aria-label': labels.Custom?.AddToWishlist?.label,
+        }));
+      }
+    },
+  })($addToWishlist);
 
   // Lifecycle Events
   events.on('pdp/valid', (valid) => {
@@ -250,19 +281,13 @@ export default async function decorate(block) {
     (cartData) => {
       let itemIsInCart = false;
       if (itemUidFromUrl && cartData?.items) {
-        // Log the UID from URL and the cart items for debugging
-        console.log(
-          '⭐️[PDP Debug] Checking for itemUid:',
-          itemUidFromUrl,
-          'in cart items:',
-          cartData.items,
-        );
         itemIsInCart = cartData.items.some(
           (item) => item.uid === itemUidFromUrl,
         );
       }
-      // Log the result of the check
-      console.log('💚[PDP Debug] Item in cart check result:', itemIsInCart);
+      // Set the update mode state
+      isUpdateMode = itemIsInCart;
+
       // Update button text based on whether the item is in the cart
       updateAddToCartButtonText(addToCart, itemIsInCart, labels);
     },
