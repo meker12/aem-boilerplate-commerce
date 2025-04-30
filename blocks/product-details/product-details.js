@@ -31,7 +31,7 @@ import { rootLink } from '../../scripts/scripts.js';
 // Function to update the Add to Cart button text
 function updateAddToCartButtonText(addToCartInstance, inCart, labels) {
   const buttonText = inCart
-    ? labels.Custom?.UpdateInCart?.label || 'Update in Cart' // Use placeholder or fallback
+    ? labels.PDP?.Product?.UpdateInCart?.label
     : labels.PDP?.Product?.AddToCart?.label;
   if (addToCartInstance) {
     addToCartInstance.setProps((prev) => ({
@@ -166,7 +166,7 @@ export default async function decorate(block) {
     icon: Icon({ source: 'Cart' }),
     onClick: async () => {
       const buttonActionText = isUpdateMode
-        ? labels.Custom?.UpdatingInCart?.label || 'Updating in Cart...'
+        ? labels.Custom?.UpdatingInCart?.label
         : labels.Custom?.AddingToCart?.label;
       try {
         addToCart.setProps((prev) => ({
