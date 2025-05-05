@@ -7,7 +7,7 @@ export const customerShippingAddress = {
   postCode: '78758',
   telephone: '1234567890',
   email: 'test@example.com',
-  region: 'TX,171',
+  region: 'TX,57',
   regionFull: 'Texas',
   countryFull: 'United States',
   countryCode: 'US',
@@ -48,6 +48,6 @@ export const checkMoneyOrder = {
 export const products = {
   configurable: {
     urlPath: "/products/cypress-configurable-product-latest/CYPRESS456",
-    urlPathWithOptions: "/products/cypress-configurable-product-latest/CYPRESS456?optionsUIDs=Y29uZmlndXJhYmxlLzI3OS8zOQ%3D%3D"
+    urlPathWithOptions: "/products/cypress-configurable-product-latest/CYPRESS456?optionsUIDs=Y29uZmlndXJhYmxlLzkzLzEz"
   },
 };
