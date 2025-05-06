@@ -32,7 +32,7 @@ import { rootLink } from '../../scripts/scripts.js';
 function updateAddToCartButtonText(addToCartInstance, inCart, labels) {
   const buttonText = inCart
     ? labels.PDP?.Product?.UpdateInCart?.label
-    : labels.PDP?.Product?.AddToCart?.label;
+    : labels.Custom?.Testing?.label;
   if (addToCartInstance) {
     addToCartInstance.setProps((prev) => ({
       ...prev,
