@@ -5,6 +5,7 @@ import { expectsEventWithContext } from "../../../assertions";
  * Required Contexts: page, storefront, searchInput
  */
 it.skip('is sent on search bar view/render', () => {
+  // tag: paas
   cy.visit('/');
   cy.get('.nav-search-button').should('be.visible').click();
   cy.wait(2000);

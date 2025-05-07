@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Boilerplate E2E tests",
   "scripts": {
-    "cypress:open": "cypress open --browser chrome --config-file cypress.config.js",
-    "cypress:run": "cypress run --config-file cypress.config.js",
-    "cypress:saas:open": "cypress open --browser chrome --config-file cypress.saas.config.js",
-    "cypress:saas:run": "cypress run --config-file cypress.saas.config.js"
+    "cypress:open": "cypress open --browser chrome --config-file cypress.config.js --tag paas",
+    "cypress:run": "cypress run --config-file cypress.config.js --tag paas",
+    "cypress:saas:open": "cypress open --browser chrome --config-file cypress.saas.config.js --tag saas",
+    "cypress:saas:run": "cypress run --config-file cypress.saas.config.js --tag saas"
   },
   "author": "Adobe Commerce",
   "license": "Apache License 2.0",

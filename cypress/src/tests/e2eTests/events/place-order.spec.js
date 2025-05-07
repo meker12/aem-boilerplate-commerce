@@ -18,6 +18,8 @@ import { customerShippingAddress, products } from "../../../fixtures";
  */
 
 it("is sent on place order button click", () => {
+  // tag: paas 
+  // tag: saas
   // add item to cart
   cy.visit(products.configurable.urlPathWithOptions);
   // add to cart
