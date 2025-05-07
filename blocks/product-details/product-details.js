@@ -196,7 +196,7 @@ export default async function decorate(block) {
                 rootLink('/cart'),
                 window.location.origin,
               );
-              cartRedirectUrl.searchParams.set('updatedSku', updatedSku);
+              cartRedirectUrl.searchParams.set('itemUid', itemUidFromUrl);
               window.location.href = cartRedirectUrl.toString();
             } else {
               // Fallback if SKU is somehow missing (shouldn't happen in normal flow)
