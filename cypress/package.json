@@ -4,7 +4,9 @@
   "description": "Boilerplate E2E tests",
   "scripts": {
     "cypress:open": "cypress open --browser chrome --config-file cypress.config.js",
-    "cypress:run": "cypress run --config-file cypress.config.js"
+    "cypress:run": "cypress run --config-file cypress.config.js",
+    "cypress:saas:open": "cypress open --browser chrome --config-file cypress.saas.config.js",
+    "cypress:saas:run": "cypress run --config-file cypress.saas.config.js"
   },
   "author": "Adobe Commerce",
   "license": "Apache License 2.0",
