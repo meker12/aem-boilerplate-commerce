@@ -1,4 +1,4 @@
-describe('Verify stock notification message', () => {
+describe('Verify stock notification message', { tags: ['@paas', '@saas'] }, () => {
     it('Verify low stock and max qty allowed notification message', () => {
         // tag: paas 
         // tag: saas

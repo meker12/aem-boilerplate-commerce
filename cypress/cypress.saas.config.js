@@ -30,7 +30,7 @@ module.exports = defineConfig({
     graphqlEndPoint: 'https://na1-sandbox.api.commerce.adobe.com/LwndYQs37CvkUQk9WEmNkz/graphql',
     giftCard: '000Y7YLECJ34',
     productUrlWithOptions: '/products/cypress-configurable-product-latest/CYPRESS456?optionsUIDs=Y29uZmlndXJhYmxlLzkzLzEz',
-    stateId: 'TX,57',
+    stateShippingId: 'TX,57',
     stateBillingId: 'NY,43',
   },
   reporter: 'cypress-multi-reporters',

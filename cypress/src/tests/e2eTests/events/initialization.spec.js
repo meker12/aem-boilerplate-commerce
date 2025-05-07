@@ -4,7 +4,7 @@ const baselineContexts = (adobeDataLayer) => {
   expectsEventWithContext(null, ['pageContext', 'storefrontInstanceContext', 'eventForwardingContext', 'shopperContext'], adobeDataLayer)
 };
 
-it('has baseline contexts on homepage', () => {
+it('has baseline contexts on homepage', { tags: ['@paas', '@saas'] }, () => {
   // tag: paas 
   // tag: saas
   cy.visit('/');
@@ -14,7 +14,7 @@ it('has baseline contexts on homepage', () => {
     });
 });
 
-it('has baseline contexts on PDP', () => {
+it('has baseline contexts on PDP', { tags: ['@paas', '@saas'] }, () => {
   // tag: paas 
   // tag: saas
   cy.visit('/products/frankie-sweatshirt/MH04');
@@ -24,7 +24,7 @@ it('has baseline contexts on PDP', () => {
     });
 });
 
-it('has baseline contexts on cart', () => {
+it('has baseline contexts on cart', { tags: ['@paas', '@saas'] }, () => {
   // tag: paas 
   // tag: saas
   cy.visit('/cart');
@@ -34,7 +34,7 @@ it('has baseline contexts on cart', () => {
     });
 });
 
-it('has baseline contexts on checkout', () => {
+it('has baseline contexts on checkout', { tags: ['@paas', '@saas'] }, () => {
   // tag: paas 
   // tag: saas
   cy.visit('/checkout');

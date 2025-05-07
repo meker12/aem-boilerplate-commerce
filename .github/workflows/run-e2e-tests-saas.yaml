@@ -1,4 +1,4 @@
-name: Cypress E2E Tests
+name: Cypress E2E SaaS Tests
 on: push
 jobs:
   cypress-run:
@@ -21,7 +21,7 @@ jobs:
           browser: chrome
           wait-on: 'http://localhost:3000'
           config: baseUrl=http://localhost:3000
-          command: npm run custom-test
+          command: npm run cypress:saas:run
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
