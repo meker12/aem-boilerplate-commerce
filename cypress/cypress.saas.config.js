@@ -27,13 +27,11 @@ module.exports = defineConfig({
     specPattern: 'src/tests/**/*.spec.js',
   },
   env: {
-    graphqlEndPoint: 'https://www.aemshop.net/graphql',
+    graphqlEndPoint: 'https://na1-sandbox.api.commerce.adobe.com/LwndYQs37CvkUQk9WEmNkz/graphql',
     giftCard: '000Y7YLECJ34',
     productUrlWithOptions: '/products/cypress-configurable-product-latest/CYPRESS456?optionsUIDs=Y29uZmlndXJhYmxlLzkzLzEz',
-    stateShippingId: 'TX,171',
-    stateBillingId: 'NY,129',
-    // staging env
-    // giftCardStaging: '00GO12SK6WF3',
+    stateId: 'TX,57',
+    stateBillingId: 'NY,43',
   },
   reporter: 'cypress-multi-reporters',
   reporterOptions: {

@@ -5,6 +5,8 @@ const baselineContexts = (adobeDataLayer) => {
 };
 
 it('has baseline contexts on homepage', () => {
+  // tag: paas 
+  // tag: saas
   cy.visit('/');
   cy.waitForResource('commerce-events-collector.js')
     .then(() => {
@@ -13,6 +15,8 @@ it('has baseline contexts on homepage', () => {
 });
 
 it('has baseline contexts on PDP', () => {
+  // tag: paas 
+  // tag: saas
   cy.visit('/products/frankie-sweatshirt/MH04');
   cy.waitForResource('commerce-events-collector.js')
     .then(() => {
@@ -21,6 +25,8 @@ it('has baseline contexts on PDP', () => {
 });
 
 it('has baseline contexts on cart', () => {
+  // tag: paas 
+  // tag: saas
   cy.visit('/cart');
   cy.waitForResource('commerce-events-collector.js')
     .then(() => {
@@ -29,6 +35,8 @@ it('has baseline contexts on cart', () => {
 });
 
 it('has baseline contexts on checkout', () => {
+  // tag: paas 
+  // tag: saas
   cy.visit('/checkout');
   cy.waitForResource('commerce-events-collector.js')
     .then(() => {

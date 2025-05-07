@@ -6,6 +6,8 @@ import { products } from '../../../fixtures';
  * Required Contexts: page, storefront, product, shoppingCart
  */
 it('is sent on product page view/render', () => {
+  // tag: paas 
+  // tag: saas
   cy.visit(products.configurable.urlPath);
   cy.waitForResource('commerce-events-collector.js')
     .then(() => {
