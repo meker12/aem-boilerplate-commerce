@@ -25,6 +25,9 @@ module.exports = defineConfig({
   env: {
     graphqlEndPoint: 'https://www.aemshop.net/graphql',
     giftCard: '000Y7YLECJ34',
+    productUrlWithOptions: '/products/cypress-configurable-product-latest/CYPRESS456?optionsUIDs=Y29uZmlndXJhYmxlLzI3OS8zOQ%3D%3D',
+    stateShippingId: 'TX,171',
+    stateBillingId: 'NY,129',
     // staging env
     // giftCardStaging: '00GO12SK6WF3',
   },
