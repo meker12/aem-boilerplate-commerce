@@ -14,7 +14,6 @@ import { expectsEventWithContext } from "../../../assertions";
 
 const RECS_URL = '/products/play-create-repeat-crewneck/ADB388';
 it('api-request-sent, api-response-received, unit-impression-render', { tags: '@paas' }, () => {
-  // tag: paas 
   cy.visit(RECS_URL);
   cy.waitForResource('commerce-events-collector.js').then(() => {
     cy.window().its('adobeDataLayer').then((adobeDataLayer) => {
@@ -38,7 +37,6 @@ it('api-request-sent, api-response-received, unit-impression-render', { tags: '@
 });
 
 it('recs-unit-view', () => {
-  // tag: paas 
   cy.viewport(1440, 600)
   cy.visit(RECS_URL);
   cy.waitForResource('commerce-events-collector.js').then(() => {
@@ -64,7 +62,7 @@ it('recs-unit-view', () => {
 });
 
 it.skip('recs-item-click', () => {
-  // tag: paas 
+   
   cy.visit(RECS_URL);
   cy.waitForResource("commerce-events-collector.js").then(() => {
     cy.window().then((win) => {
@@ -97,7 +95,7 @@ it.skip('recs-item-click', () => {
 });
 
 it.skip('reqs-item-add-to-cart', () => {
-  // tag: paas 
+   
   cy.visit(RECS_URL);
   cy.waitForResource("commerce-events-collector.js").then(() => {
     cy.window().then((win) => {

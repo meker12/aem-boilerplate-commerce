@@ -2,8 +2,6 @@ import { signUpUser } from '../../../actions';
 import { assertAuthUser, expectsEventWithContext } from '../../../assertions';
 
 it('has shopperId as logged-in when authenticated, and guest when not', { tags: '@paas' }, () => {
-  // tag: paas 
-  // tag: saas
   // 1. checks that shopperContext is guest on first non-authenticated page load
   cy.visit('/');
   cy.waitForResource('commerce-events-collector.js')

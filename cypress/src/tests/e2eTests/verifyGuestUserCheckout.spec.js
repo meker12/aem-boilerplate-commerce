@@ -28,8 +28,7 @@ import {
 import * as fields from "../../fields";
 
 describe('Verify guest user can place order', { tags: '@paas' }, () => {
-  it('Verify guest user can place order', () => {
-    // tag: paas
+  it('Verify guest user can place order', () => {   
     cy.visit('');
     cy.get('.nav-drop')
       .first()

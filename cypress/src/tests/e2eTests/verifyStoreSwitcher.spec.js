@@ -15,8 +15,6 @@ describe('Store Switcher',{ tags: ['@paas', '@saas'] }, () => {
   // });
 
   it.skip('should allow the user to switch stores', () => {
-    // tag: paas 
-    // tag: saas
     // Visit the homepage
     cy.visit('/');
 

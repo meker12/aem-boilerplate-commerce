@@ -37,7 +37,6 @@ import {
 describe('Verify price summary on cart',{ tags: '@paas' }, () => {
 
   it('Verify applied gift code', () => {
-    // tag: paas 
     cy.visit(products.configurable.urlPathWithOptions);
     cy.get('.product-details__buttons__add-to-cart button')
       .should('be.visible')
