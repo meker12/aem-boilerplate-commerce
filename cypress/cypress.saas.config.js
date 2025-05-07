@@ -18,6 +18,10 @@ module.exports = defineConfig({
     runMode: 2,
   },
   e2e: {
+    setupNodeEvents(on, config) {
+      require('@cypress/grep/src/plugin')(config);
+      return config;
+    },
     baseUrl: 'http://localhost:3000/',
     supportFile: 'src/support/index.js',
     specPattern: 'src/tests/**/*.spec.js',

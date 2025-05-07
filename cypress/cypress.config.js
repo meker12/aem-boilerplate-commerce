@@ -18,6 +18,10 @@ module.exports = defineConfig({
     runMode: 2,
   },
   e2e: {
+    setupNodeEvents(on, config) {
+      require('@cypress/grep/src/plugin')(config);
+      return config;
+    },
     baseUrl: 'http://localhost:3000/',
     supportFile: 'src/support/index.js',
     specPattern: 'src/tests/**/*.spec.js',
@@ -25,7 +29,7 @@ module.exports = defineConfig({
   env: {
     graphqlEndPoint: 'https://www.aemshop.net/graphql',
     giftCard: '000Y7YLECJ34',
-    productUrlWithOptions: '/products/cypress-configurable-product-latest/CYPRESS456?optionsUIDs=Y29uZmlndXJhYmxlLzI3OS8zOQ%3D%3D',
+    productUrlWithOptions: '/products/cypress-configurable-product-latest/CYPRESS456?optionsUIDs=Y29uZmlndXJhYmxlLzkzLzEz',
     stateShippingId: 'TX,171',
     stateBillingId: 'NY,129',
     // staging env
