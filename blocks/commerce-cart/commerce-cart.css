@@ -36,6 +36,8 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+  border-radius: var(--shape-border-radius-2);
+  overflow: hidden;
 }
 
 .cart__notification .dropin-in-line-alert__content {
