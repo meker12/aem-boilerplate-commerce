@@ -31,7 +31,7 @@ export default async function decorate(block) {
     'enable-estimate-shipping': enableEstimateShipping = 'false',
     'start-shopping-url': startShoppingURL = '',
     'checkout-url': checkoutURL = '',
-    'enable-updating-product': enableUpdatingProduct = 'true',
+    'enable-updating-product': enableUpdatingProduct = 'false',
   } = readBlockConfig(block);
 
   const cart = Cart.getCartDataFromCache();
