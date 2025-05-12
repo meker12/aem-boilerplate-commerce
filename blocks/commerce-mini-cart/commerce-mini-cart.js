@@ -66,12 +66,41 @@ export default async function decorate(block) {
     routeProduct: (product) => rootLink(`/products/${product.url.urlKey}/${product.topLevelSku}`),
     slots: {
       Thumbnail: (ctx) => {
-        // Conditionally add the Edit button based on config
-        if (enableUpdatingProduct === 'true') {
-          // Temporary sample code for the Edit button, will remove before merge
+        if (ctx.item?.itemType === 'ConfigurableCartItem' && enableUpdatingProduct === 'true') {
+          const editLinkContainer = document.createElement('div');
+          editLinkContainer.className = 'cart-item-edit-container';
+
           const editButton = document.createElement('button');
+          editButton.className = 'cart-item-edit-link';
           editButton.textContent = 'Edit';
-          ctx.appendChild(editButton);
+
+          editButton.addEventListener('click', () => {
+            const { item } = ctx;
+            const productUrl = rootLink(`/products/${item.url.urlKey}/${item.topLevelSku}`);
+
+            const optionsUIDs = [];
+
+            if (item.selectedOptions) {
+              Object.entries(item.selectedOptions).forEach(([optionId, option]) => {
+                if (option.uid) {
+                  optionsUIDs.push(btoa(`configurable/${optionId}/${option.uid}`));
+                }
+              });
+            }
+
+            const params = new URLSearchParams();
+            if (optionsUIDs.length > 0) {
+              params.append('optionsUIDs', optionsUIDs.join(','));
+            }
+            params.append('quantity', item.quantity);
+            params.append('itemUid', item.uid);
+
+            const finalUrl = `${productUrl}?${params.toString()}`;
+            window.location.href = finalUrl;
+          });
+
+          editLinkContainer.appendChild(editButton);
+          ctx.appendChild(editLinkContainer);
         }
       },
     },
