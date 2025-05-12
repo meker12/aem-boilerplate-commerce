@@ -27,7 +27,7 @@ import {
 } from '../../fixtures/index';
 import * as fields from "../../fields";
 
-describe('Verify guest user can place order', { tags: '@paas' }, () => {
+describe('Verify guest user can place order', { tags: ['@paas', '@saas']  }, () => {
   it('Verify guest user can place order', () => {   
     cy.visit('');
     cy.get('.nav-drop')
@@ -53,7 +53,7 @@ describe('Verify guest user can place order', { tags: '@paas' }, () => {
       'Youth tee',
       '/products/youth-tee/ADB150'
     )('.cart-mini-cart');
-    assertProductImage('/ADB150.jpg')('.cart-mini-cart');
+    assertProductImage(Cypress.env('productImageName'))('.cart-mini-cart');
     cy.contains('View Cart').click();
     assertCartSummaryProduct(
       'Youth tee',
@@ -67,7 +67,7 @@ describe('Verify guest user can place order', { tags: '@paas' }, () => {
       'Youth tee',
       '/products/youth-tee/ADB150'
     )('.commerce-cart-wrapper');
-    assertProductImage('/ADB150.jpg')('.commerce-cart-wrapper');
+    assertProductImage(Cypress.env('productImageName'))('.commerce-cart-wrapper');
     cy.contains('Estimated Shipping').should('be.visible');
     cy.get('.dropin-button--primary')
       .contains('Checkout')

@@ -61,7 +61,7 @@ describe('Verify price summary on cart',{ tags: '@paas' }, () => {
 
     cy.get(`.cart-coupons.cart-gift-cards ${fields.giftCardField}`)
       .should('be.visible')
-      .type(Cypress.env('giftCard'));
+      .type(Cypress.env('giftCardA'));
 
     cy.wait(2000);
 
@@ -125,7 +125,7 @@ describe('Verify price summary on cart',{ tags: '@paas' }, () => {
     cy.wait('@setEmailOnCart');
     setGuestShippingAddress(customerShippingAddress, true);
     cy.contains("No Payment Information Required");
-    cy.contains(Cypress.env('giftCard'));
+    cy.contains(Cypress.env('giftCardA'));
     checkTermsAndConditions();
     cy.wait(5000);
     placeOrder();
