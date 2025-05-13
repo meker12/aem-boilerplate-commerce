@@ -13,7 +13,7 @@ import { expectsEventWithContext } from "../../../assertions";
  */
 
 const RECS_URL = '/products/play-create-repeat-crewneck/ADB388';
-it('api-request-sent, api-response-received, unit-impression-render', { tags: '@skip-saas' }, () => {
+it('api-request-sent, api-response-received, unit-impression-render', { tags: '@skipSaas' }, () => {
   cy.visit(RECS_URL);
   cy.waitForResource('commerce-events-collector.js').then(() => {
     cy.window().its('adobeDataLayer').then((adobeDataLayer) => {
@@ -36,7 +36,7 @@ it('api-request-sent, api-response-received, unit-impression-render', { tags: '@
   });
 });
 
-it('recs-unit-view', () => {
+it('recs-unit-view', { tags: '@skipSaas' }, () => {
   cy.viewport(1440, 600)
   cy.visit(RECS_URL);
   cy.waitForResource('commerce-events-collector.js').then(() => {
@@ -61,7 +61,7 @@ it('recs-unit-view', () => {
   });
 });
 
-it.skip('recs-item-click', () => {
+it('recs-item-click',  { tags: '@skipSaas' }, () => {
    
   cy.visit(RECS_URL);
   cy.waitForResource("commerce-events-collector.js").then(() => {
@@ -94,7 +94,7 @@ it.skip('recs-item-click', () => {
   });
 });
 
-it.skip('reqs-item-add-to-cart', () => {
+it('reqs-item-add-to-cart',  { tags: '@skipSaas' }, () => {
    
   cy.visit(RECS_URL);
   cy.waitForResource("commerce-events-collector.js").then(() => {
