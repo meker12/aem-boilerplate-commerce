@@ -29,7 +29,8 @@ import {
 } from '../../fixtures/index';
 import * as fields from "../../fields";
 
-describe('Verify auth user can place order', () => {
+// This test is skipped for ACCS due to cancel flow bug https://jira.corp.adobe.com/browse/LYNX-856
+describe('Verify auth user can place order',  { tags: '@skipSaas' }, () => {
   it('Verify auth user can place order', () => {
     // TODO: replace with single "test" product shared between all tests (not this vs products.configurable.urlPathWithOptions).
     cy.visit(products.configurable.urlPathWithOptions);
@@ -209,21 +210,21 @@ describe('Verify auth user can place order', () => {
 
     cy.get(fields.submitCancelOrderButton).click();
 
-    // cy.get('.dropin-header-container__title', { timeout: 3000 })
-    //   .should('exist')
-    //   .and('be.visible')
-    //   .and('contain.text', 'Canceled');
+    cy.get('.dropin-header-container__title', { timeout: 3000 })
+      .should('exist')
+      .and('be.visible')
+      .and('contain.text', 'Canceled');
 
-    // cy.get(fields.cancellationReasonsModal).should('not.exist');
+    cy.get(fields.cancellationReasonsModal).should('not.exist');
 
-    // cy.get('.order-order-status-content__wrapper-description p')
-    //   .should('exist')
-    //   .and('be.visible')
-    //   .and(
-    //     'contain.text',
-    //     'This order was cancelled by you. You should see a refund to your original payment method with 5-7 business days.'
-    //   );
+    cy.get('.order-order-status-content__wrapper-description p')
+      .should('exist')
+      .and('be.visible')
+      .and(
+        'contain.text',
+        'This order was cancelled by you. You should see a refund to your original payment method with 5-7 business days.'
+      );
 
-    // cy.get(fields.cancelButton).should('not.exist');
+    cy.get(fields.cancelButton).should('not.exist');
   });
 });

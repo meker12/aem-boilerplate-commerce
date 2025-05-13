@@ -171,7 +171,7 @@ export const fillGiftOptiosForm = (className, type = 'order') => {
   cy.get(className).contains('Customize').click();
   cy.get(`${className} .cart-gift-options-view__modal-grid-item img`)
     .eq(1)
-    .click({force: true});
+    .click();
   cy.contains('.dropin-button--primary', 'Apply').click();
 };
 
