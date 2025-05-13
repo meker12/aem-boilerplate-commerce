@@ -1,4 +1,4 @@
-describe('Verify user account functionality',{ tags: ['@paas', '@saas'] }, () => {
+describe('Verify user account functionality',() => {
   it.skip('Verify auth user can create addresses', () => {
     /**
      * TODO - when /account and /addresses pages will be ready

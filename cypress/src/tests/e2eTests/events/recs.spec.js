@@ -13,7 +13,7 @@ import { expectsEventWithContext } from "../../../assertions";
  */
 
 const RECS_URL = '/products/play-create-repeat-crewneck/ADB388';
-it('api-request-sent, api-response-received, unit-impression-render', { tags: '@paas' }, () => {
+it('api-request-sent, api-response-received, unit-impression-render', { tags: '@skip-saas' }, () => {
   cy.visit(RECS_URL);
   cy.waitForResource('commerce-events-collector.js').then(() => {
     cy.window().its('adobeDataLayer').then((adobeDataLayer) => {

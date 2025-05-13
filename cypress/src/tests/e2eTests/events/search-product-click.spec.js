@@ -3,7 +3,7 @@
  *
  * Required contexts: page, storefront, searchResult
  */
-it("is sent on search bar product click", { tags: '@paas' }, () => {
+it("is sent on search bar product click", { tags: '@skip-saas' }, () => {
   cy.visit("/");
   cy.waitForResource('commerce-events-collector.js').then(() => {
     cy.window().its('adobeDataLayer').then((adobeDataLayer) => {

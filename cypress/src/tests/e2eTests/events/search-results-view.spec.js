@@ -4,7 +4,7 @@ import { expectsEventWithContext } from "../../../assertions";
  *
  * Required Contexts: page, storefront, searcResults
  */
-it('is sent on search bar view/render', { tags: '@paas' }, () => {
+it('is sent on search bar view/render', { tags: '@skip-saas' }, () => {
   cy.visit('/');
   cy.get('.nav-search-button').should('be.visible').click();
   cy.wait(2000);

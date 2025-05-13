@@ -4,9 +4,9 @@
   "description": "Boilerplate E2E tests",
   "scripts": {
     "cypress:open": "cypress open --browser chrome --config-file cypress.config.js",
-    "cypress:run": "cypress run --config-file cypress.config.js --env grepTags=@paas",
+    "cypress:run": "cypress run --config-file cypress.config.js --env grepTags=-@skip-paas",
     "cypress:saas:open": "cypress open --browser chrome --config-file cypress.saas.config.js",
-    "cypress:saas:run": "cypress run --config-file cypress.saas.config.js  --env grepTags=@saas"
+    "cypress:saas:run": "cypress run --config-file cypress.saas.config.js  --env grepTags=-@skip-saas"
   },
   "author": "Adobe Commerce",
   "license": "Apache License 2.0",
